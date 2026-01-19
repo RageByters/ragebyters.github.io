@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RageByters | Web Game Arcade</title>
     
-    <!-- Google Fonts: Retro Gaming Vibes -->
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Orbitron:wght@400;700;900&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     
     <!-- Font Awesome Icons -->
@@ -13,6 +13,9 @@
     
     <!-- AOS Animation Library -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    
+    <!-- Typed.js for text animation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.12/typed.min.js"></script>
     
     <style>
         * {
@@ -30,11 +33,11 @@
             --accent-cyan: #00e5ff;
             --accent-purple: #7c3aed;
             --accent-yellow: #ffeb3b;
+            --accent-green: #1de9b6;
             --text-main: #ffffff;
             --text-dim: #b0b0b0;
         }
 
-        /* Animated Background */
         @keyframes gradient-shift {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
@@ -52,7 +55,6 @@
             line-height: 1.6;
         }
 
-        /* Animated Grid Background */
         body::before {
             content: '';
             position: fixed;
@@ -183,6 +185,13 @@
             max-width: 600px;
             margin-left: auto;
             margin-right: auto;
+            min-height: 30px;
+        }
+
+        /* Typed Text Animation */
+        .typed-text {
+            color: var(--accent-green);
+            text-shadow: 0 0 10px rgba(29, 233, 182, 0.5);
         }
 
         /* Stats Bar */
@@ -243,33 +252,32 @@
             color: var(--accent-red);
         }
 
-        /* Game Grid - Coming Soon Cards */
+        /* Upcoming Games Grid */
         .game-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 25px;
             margin-bottom: 60px;
         }
 
-        .game-card {
+        .coming-soon-card {
             background: linear-gradient(135deg, rgba(255, 23, 68, 0.1), rgba(124, 58, 237, 0.1));
             border: 2px solid rgba(255, 23, 68, 0.5);
             border-radius: 12px;
-            padding: 30px;
-            text-decoration: none;
-            color: inherit;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 220px;
+            padding: 40px 20px;
+            text-align: center;
+            height: 200px;
             position: relative;
             overflow: hidden;
             transition: all 0.3s ease;
             cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
         }
 
-        .game-card::before {
+        .coming-soon-card::before {
             content: '';
             position: absolute;
             top: -50%;
@@ -286,61 +294,41 @@
             100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
         }
 
-        .game-card-content {
+        .coming-soon-content {
             position: relative;
             z-index: 2;
-            text-align: center;
         }
 
-        .game-icon {
-            font-size: 3.5rem;
+        .coming-soon-icon {
+            font-size: 3rem;
             margin-bottom: 15px;
-            display: inline-block;
-            transition: transform 0.3s;
+            animation: bounce 2s infinite;
         }
 
-        .game-card:hover .game-icon {
-            transform: scale(1.2) rotate(10deg);
-        }
-
-        .game-title {
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: var(--accent-cyan);
-            margin-bottom: 10px;
-            text-shadow: 0 0 10px rgba(0, 229, 255, 0.5);
-        }
-
-        .game-desc {
-            font-size: 0.85rem;
-            color: var(--text-dim);
-            line-height: 1.4;
-            margin-bottom: 15px;
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
 
         .coming-soon-badge {
             display: inline-block;
             background: linear-gradient(135deg, var(--accent-red), var(--accent-pink));
             color: white;
-            padding: 6px 12px;
+            padding: 8px 16px;
             border-radius: 20px;
             font-size: 0.75rem;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 1px;
+            box-shadow: 0 0 10px rgba(255, 23, 68, 0.5);
         }
 
-        .game-card:hover {
+        .coming-soon-card:hover {
             border-color: var(--accent-cyan);
             transform: translateY(-8px);
             box-shadow: 
                 0 0 20px rgba(255, 23, 68, 0.4),
                 0 0 40px rgba(0, 229, 255, 0.2);
-        }
-
-        .game-card:hover .game-title {
-            color: var(--accent-red);
-            text-shadow: 0 0 20px rgba(255, 23, 68, 0.8);
         }
 
         /* Features Section */
@@ -358,6 +346,23 @@
             border-radius: 10px;
             text-align: center;
             transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 229, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .feature:hover::before {
+            left: 100%;
         }
 
         .feature:hover {
@@ -370,17 +375,165 @@
             font-size: 2.5rem;
             margin-bottom: 15px;
             color: var(--accent-cyan);
+            position: relative;
+            z-index: 2;
         }
 
         .feature h3 {
             font-size: 1.1rem;
             margin-bottom: 10px;
             color: var(--accent-pink);
+            position: relative;
+            z-index: 2;
         }
 
         .feature p {
             color: var(--text-dim);
             font-size: 0.9rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Roadmap Section */
+        .roadmap {
+            position: relative;
+            padding: 40px 0;
+        }
+
+        .roadmap-item {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 40px;
+            align-items: flex-start;
+        }
+
+        .roadmap-item:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .roadmap-content {
+            flex: 1;
+            background: rgba(26, 31, 58, 0.8);
+            border: 1px solid rgba(255, 23, 68, 0.3);
+            padding: 30px;
+            border-radius: 10px;
+            position: relative;
+        }
+
+        .roadmap-content h3 {
+            color: var(--accent-cyan);
+            margin-bottom: 10px;
+        }
+
+        .roadmap-content p {
+            color: var(--text-dim);
+            font-size: 0.9rem;
+        }
+
+        .roadmap-status {
+            display: inline-block;
+            background: rgba(0, 229, 255, 0.2);
+            color: var(--accent-cyan);
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.75rem;
+            margin-top: 10px;
+            text-transform: uppercase;
+        }
+
+        .roadmap-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--accent-red), var(--accent-pink));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            flex-shrink: 0;
+            box-shadow: 0 0 20px rgba(255, 23, 68, 0.5);
+        }
+
+        /* Tech Stack Section */
+        .tech-stack {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin-bottom: 60px;
+        }
+
+        .tech-item {
+            background: rgba(26, 31, 58, 0.8);
+            border: 1px solid rgba(124, 58, 237, 0.3);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .tech-item:hover {
+            border-color: var(--accent-purple);
+            box-shadow: 0 0 20px rgba(124, 58, 237, 0.3);
+            transform: scale(1.05);
+        }
+
+        .tech-icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .tech-name {
+            font-size: 0.9rem;
+            color: var(--accent-pink);
+            font-weight: 600;
+        }
+
+        /* Leaderboard Section */
+        .leaderboard {
+            background: rgba(26, 31, 58, 0.8);
+            border: 2px solid rgba(255, 235, 59, 0.3);
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 60px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .leaderboard h3 {
+            color: var(--accent-yellow);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .lb-entry {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            border-bottom: 1px solid rgba(255, 235, 59, 0.2);
+            transition: all 0.3s;
+        }
+
+        .lb-entry:hover {
+            background: rgba(255, 235, 59, 0.1);
+        }
+
+        .lb-rank {
+            font-weight: bold;
+            color: var(--accent-yellow);
+            min-width: 30px;
+        }
+
+        .lb-name {
+            flex: 1;
+            margin-left: 15px;
+            color: var(--text-main);
+        }
+
+        .lb-score {
+            color: var(--accent-green);
+            font-weight: 600;
         }
 
         /* CTA Section */
@@ -489,6 +642,7 @@
         .community-card:hover {
             border-color: var(--accent-red);
             box-shadow: 0 0 20px rgba(255, 23, 68, 0.2);
+            transform: translateY(-5px);
         }
 
         .community-icon {
@@ -505,6 +659,7 @@
             color: var(--accent-cyan);
             text-decoration: none;
             transition: all 0.3s;
+            font-weight: 600;
         }
 
         .community-card a:hover {
@@ -589,6 +744,8 @@
             .section { padding: 50px 20px; }
             .section-title { font-size: 1.3rem; }
             .btn-group { flex-direction: column; }
+            .roadmap-item { flex-direction: column !important; }
+            .roadmap-icon { margin: 0 auto; }
         }
     </style>
 </head>
@@ -600,8 +757,9 @@
         <ul class="nav-links">
             <li><a href="#games">Games</a></li>
             <li><a href="#features">Features</a></li>
+            <li><a href="#roadmap">Roadmap</a></li>
+            <li><a href="#tech">Tech</a></li>
             <li><a href="#community">Community</a></li>
-            <li><a href="#contact">Contact</a></li>
         </ul>
     </nav>
 
@@ -610,7 +768,9 @@
         <header id="home">
             <h1>⚡ RAGEBYTERS ⚡</h1>
             <p class="subtitle">BITE-SIZED ARCADE</p>
-            <p class="tagline">Single-player web games crafted for maximum rage. Play in your browser, contribute on GitHub, join the chaos.</p>
+            <p class="tagline">
+                <span class="typed-text"></span>
+            </p>
             
             <div class="stats-bar">
                 <div class="stat">
@@ -628,62 +788,50 @@
             </div>
         </header>
 
-        <!-- Games Section -->
+        <!-- Coming Soon Games Section -->
         <div class="section" id="games">
             <div class="container">
-                <h2 class="section-title">Upcoming Games</h2>
+                <h2 class="section-title">Coming Soon</h2>
                 
                 <div class="game-grid">
-                    <div class="game-card" data-aos="fade-up">
-                        <div class="game-card-content">
-                            <div class="game-icon">🐍</div>
-                            <div class="game-title">Snake</div>
-                            <div class="game-desc">Classic snake reimagined with modern rage mechanics.</div>
+                    <div class="coming-soon-card" data-aos="fade-up">
+                        <div class="coming-soon-content">
+                            <div class="coming-soon-icon">🎮</div>
                             <div class="coming-soon-badge">Coming Soon</div>
                         </div>
                     </div>
 
-                    <div class="game-card" data-aos="fade-up" data-aos-delay="100">
-                        <div class="game-card-content">
-                            <div class="game-icon">🧱</div>
-                            <div class="game-title">Tetris Mayhem</div>
-                            <div class="game-desc">Stack blocks, lose your composure, repeat forever.</div>
+                    <div class="coming-soon-card" data-aos="fade-up" data-aos-delay="100">
+                        <div class="coming-soon-content">
+                            <div class="coming-soon-icon">🎯</div>
                             <div class="coming-soon-badge">Coming Soon</div>
                         </div>
                     </div>
 
-                    <div class="game-card" data-aos="fade-up" data-aos-delay="200">
-                        <div class="game-card-content">
-                            <div class="game-icon">🔢</div>
-                            <div class="game-title">2048 Extreme</div>
-                            <div class="game-desc">Slide, combine, scream internally, repeat.</div>
+                    <div class="coming-soon-card" data-aos="fade-up" data-aos-delay="200">
+                        <div class="coming-soon-content">
+                            <div class="coming-soon-icon">⚙️</div>
                             <div class="coming-soon-badge">Coming Soon</div>
                         </div>
                     </div>
 
-                    <div class="game-card" data-aos="fade-up" data-aos-delay="300">
-                        <div class="game-card-content">
-                            <div class="game-icon">🐦</div>
-                            <div class="game-title">Flappy Nightmare</div>
-                            <div class="game-desc">Tap to live. Tap wrong to cry. No in-between.</div>
+                    <div class="coming-soon-card" data-aos="fade-up" data-aos-delay="300">
+                        <div class="coming-soon-content">
+                            <div class="coming-soon-icon">🚀</div>
                             <div class="coming-soon-badge">Coming Soon</div>
                         </div>
                     </div>
 
-                    <div class="game-card" data-aos="fade-up" data-aos-delay="400">
-                        <div class="game-card-content">
-                            <div class="game-icon">🎮</div>
-                            <div class="game-title">Breakout Fury</div>
-                            <div class="game-desc">Smash bricks, feel temporarily alive.</div>
+                    <div class="coming-soon-card" data-aos="fade-up" data-aos-delay="400">
+                        <div class="coming-soon-content">
+                            <div class="coming-soon-icon">💥</div>
                             <div class="coming-soon-badge">Coming Soon</div>
                         </div>
                     </div>
 
-                    <div class="game-card" data-aos="fade-up" data-aos-delay="500">
-                        <div class="game-card-content">
-                            <div class="game-icon">🏓</div>
-                            <div class="game-title">Pong Reborn</div>
-                            <div class="game-desc">Retro vibes, modern rage fuel, no mercy.</div>
+                    <div class="coming-soon-card" data-aos="fade-up" data-aos-delay="500">
+                        <div class="coming-soon-content">
+                            <div class="coming-soon-icon">🎪</div>
                             <div class="coming-soon-badge">Coming Soon</div>
                         </div>
                     </div>
@@ -698,54 +846,211 @@
                 
                 <div class="features">
                     <div class="feature" data-aos="zoom-in">
-                        <div class="feature-icon">🚀</div>
+                        <div class="feature-icon">⚡</div>
                         <h3>Lightning Fast</h3>
                         <p>Zero loading times. Pure browser gaming. Play instantly.</p>
                     </div>
 
                     <div class="feature" data-aos="zoom-in" data-aos-delay="100">
-                        <div class="feature-icon">📝</div>
+                        <div class="feature-icon">🔓</div>
                         <h3>100% Open Source</h3>
                         <p>Every game, every line. All code on GitHub. No secrets.</p>
                     </div>
 
                     <div class="feature" data-aos="zoom-in" data-aos-delay="200">
-                        <div class="feature-icon">🛠️</div>
-                        <h3>Contribute Easily</h3>
-                        <p>One repo per game. Pick your game. Build with friends.</p>
-                    </div>
-
-                    <div class="feature" data-aos="zoom-in" data-aos-delay="300">
-                        <div class="feature-icon">🌍</div>
-                        <h3>Web-Based Only</h3>
-                        <p>No downloads. No installations. Works everywhere.</p>
-                    </div>
-
-                    <div class="feature" data-aos="zoom-in" data-aos-delay="400">
                         <div class="feature-icon">👥</div>
                         <h3>Community Driven</h3>
                         <p>Made by gamers, for gamers. Your voice matters.</p>
                     </div>
 
+                    <div class="feature" data-aos="zoom-in" data-aos-delay="300">
+                        <div class="feature-icon">🌍</div>
+                        <h3>No Downloads</h3>
+                        <p>Web-based only. Works everywhere. No installations.</p>
+                    </div>
+
+                    <div class="feature" data-aos="zoom-in" data-aos-delay="400">
+                        <div class="feature-icon">🛠️</div>
+                        <h3>Easy to Contribute</h3>
+                        <p>One repo per game. Pick your project. Build with friends.</p>
+                    </div>
+
                     <div class="feature" data-aos="zoom-in" data-aos-delay="500">
                         <div class="feature-icon">💪</div>
                         <h3>Pure Rage</h3>
-                        <p>Games designed to challenge. Fail, rage, retry.</p>
+                        <p>Games designed to challenge. Fail, rage, retry forever.</p>
+                    </div>
+
+                    <div class="feature" data-aos="zoom-in" data-aos-delay="600">
+                        <div class="feature-icon">🎨</div>
+                        <h3>Creative Freedom</h3>
+                        <p>Build any game you imagine. No restrictions.</p>
+                    </div>
+
+                    <div class="feature" data-aos="zoom-in" data-aos-delay="700">
+                        <div class="feature-icon">📊</div>
+                        <h3>Leaderboards</h3>
+                        <p>Track scores, compete globally, earn bragging rights.</p>
+                    </div>
+
+                    <div class="feature" data-aos="zoom-in" data-aos-delay="800">
+                        <div class="feature-icon">🏆</div>
+                        <h3>Achievements</h3>
+                        <p>Unlock badges. Complete challenges. Prove yourself.</p>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Community & Links Section -->
-        <div class="section" id="community">
+        <!-- Tech Stack Section -->
+        <div class="section" id="tech">
             <div class="container">
-                <h2 class="section-title">Join Our Crew</h2>
+                <h2 class="section-title">Built With</h2>
+                
+                <div class="tech-stack">
+                    <div class="tech-item" data-aos="flip-left">
+                        <div class="tech-icon">🔶</div>
+                        <div class="tech-name">HTML5</div>
+                    </div>
+
+                    <div class="tech-item" data-aos="flip-left" data-aos-delay="50">
+                        <div class="tech-icon">🎨</div>
+                        <div class="tech-name">CSS3</div>
+                    </div>
+
+                    <div class="tech-item" data-aos="flip-left" data-aos-delay="100">
+                        <div class="tech-icon">⚙️</div>
+                        <div class="tech-name">JavaScript</div>
+                    </div>
+
+                    <div class="tech-item" data-aos="flip-left" data-aos-delay="150">
+                        <div class="tech-icon">🐙</div>
+                        <div class="tech-name">GitHub</div>
+                    </div>
+
+                    <div class="tech-item" data-aos="flip-left" data-aos-delay="200">
+                        <div class="tech-icon">📄</div>
+                        <div class="tech-name">GitHub Pages</div>
+                    </div>
+
+                    <div class="tech-item" data-aos="flip-left" data-aos-delay="250">
+                        <div class="tech-icon">🎮</div>
+                        <div class="tech-name">WebGL</div>
+                    </div>
+
+                    <div class="tech-item" data-aos="flip-left" data-aos-delay="300">
+                        <div class="tech-icon">🎭</div>
+                        <div class="tech-name">Canvas API</div>
+                    </div>
+
+                    <div class="tech-item" data-aos="flip-left" data-aos-delay="350">
+                        <div class="tech-icon">⚛️</div>
+                        <div class="tech-name">Responsive</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Roadmap Section -->
+        <div class="section" style="background: rgba(0, 0, 0, 0.3);" id="roadmap">
+            <div class="container">
+                <h2 class="section-title">Development Roadmap</h2>
+                
+                <div class="roadmap">
+                    <div class="roadmap-item" data-aos="fade-right">
+                        <div class="roadmap-icon">1️⃣</div>
+                        <div class="roadmap-content">
+                            <h3>Phase 1: Foundation</h3>
+                            <p>Launch main portal and first 3 games. Build community, set up GitHub organization.</p>
+                            <div class="roadmap-status">In Progress</div>
+                        </div>
+                    </div>
+
+                    <div class="roadmap-item" data-aos="fade-left">
+                        <div class="roadmap-icon">2️⃣</div>
+                        <div class="roadmap-content">
+                            <h3>Phase 2: Expansion</h3>
+                            <p>Add 10+ more games, implement leaderboards, user accounts system, achievements.</p>
+                            <div class="roadmap-status">Upcoming</div>
+                        </div>
+                    </div>
+
+                    <div class="roadmap-item" data-aos="fade-right">
+                        <div class="roadmap-icon">3️⃣</div>
+                        <div class="roadmap-content">
+                            <h3>Phase 3: Community</h3>
+                            <p>Discord bot integration, game jam events, community forums, streaming features.</p>
+                            <div class="roadmap-status">Planned</div>
+                        </div>
+                    </div>
+
+                    <div class="roadmap-item" data-aos="fade-left">
+                        <div class="roadmap-icon">4️⃣</div>
+                        <div class="roadmap-content">
+                            <h3>Phase 4: Monetization</h3>
+                            <p>Optional cosmetics, sponsorships, donations. Keep core games 100% free.</p>
+                            <div class="roadmap-status">Future</div>
+                        </div>
+                    </div>
+
+                    <div class="roadmap-item" data-aos="fade-right">
+                        <div class="roadmap-icon">5️⃣</div>
+                        <div class="roadmap-content">
+                            <h3>Phase 5: Global Scale</h3>
+                            <p>Mobile apps, tournaments, partnerships. World domination via mini-games.</p>
+                            <div class="roadmap-status">Vision</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Leaderboard Preview -->
+        <div class="section">
+            <div class="container">
+                <h2 class="section-title">Top Players</h2>
+                
+                <div class="leaderboard">
+                    <h3>🏆 Global Leaderboard (Coming Soon)</h3>
+                    <div class="lb-entry">
+                        <div class="lb-rank">#1</div>
+                        <div class="lb-name">Your Name Here</div>
+                        <div class="lb-score">∞ pts</div>
+                    </div>
+                    <div class="lb-entry">
+                        <div class="lb-rank">#2</div>
+                        <div class="lb-name">Waiting for you</div>
+                        <div class="lb-score">— pts</div>
+                    </div>
+                    <div class="lb-entry">
+                        <div class="lb-rank">#3</div>
+                        <div class="lb-name">Play and rank up</div>
+                        <div class="lb-score">— pts</div>
+                    </div>
+                    <div class="lb-entry">
+                        <div class="lb-rank">#4</div>
+                        <div class="lb-name">Be legendary</div>
+                        <div class="lb-score">— pts</div>
+                    </div>
+                    <div class="lb-entry">
+                        <div class="lb-rank">#5</div>
+                        <div class="lb-name">Join the fight</div>
+                        <div class="lb-score">— pts</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Community Section -->
+        <div class="section" style="background: rgba(0, 0, 0, 0.3);" id="community">
+            <div class="container">
+                <h2 class="section-title">Join The Community</h2>
                 
                 <div class="community-grid">
                     <div class="community-card" data-aos="flip-left">
                         <div class="community-icon">🐙</div>
                         <h3>GitHub</h3>
-                        <p>Check the code, fork a game, make a PR.</p>
+                        <p>Fork, contribute, submit PRs.</p>
                         <a href="https://github.com/ragebyters" target="_blank">
                             Visit <i class="fas fa-external-link-alt"></i>
                         </a>
@@ -754,7 +1059,7 @@
                     <div class="community-card" data-aos="flip-left" data-aos-delay="100">
                         <div class="community-icon">💬</div>
                         <h3>Discord</h3>
-                        <p>Chat with creators. Share ideas. Find collaborators.</p>
+                        <p>Chat, collaborate, hang out.</p>
                         <a href="https://discord.gg" target="_blank">
                             Join Server <i class="fas fa-external-link-alt"></i>
                         </a>
@@ -763,7 +1068,7 @@
                     <div class="community-card" data-aos="flip-left" data-aos-delay="200">
                         <div class="community-icon">🐦</div>
                         <h3>Twitter</h3>
-                        <p>Latest updates, game launches, community wins.</p>
+                        <p>Latest updates and news.</p>
                         <a href="https://twitter.com" target="_blank">
                             Follow <i class="fas fa-external-link-alt"></i>
                         </a>
@@ -772,16 +1077,16 @@
                     <div class="community-card" data-aos="flip-left" data-aos-delay="300">
                         <div class="community-icon">📧</div>
                         <h3>Email</h3>
-                        <p>Have a question? Send us a message.</p>
+                        <p>Questions or suggestions?</p>
                         <a href="mailto:hello@ragebyters.dev">
-                            hello@ragebyters.dev
+                            Contact Us <i class="fas fa-paper-plane"></i>
                         </a>
                     </div>
 
                     <div class="community-card" data-aos="flip-left" data-aos-delay="400">
                         <div class="community-icon">📺</div>
                         <h3>YouTube</h3>
-                        <p>Tutorials, gameplay, development logs.</p>
+                        <p>Tutorials & gameplay.</p>
                         <a href="https://youtube.com" target="_blank">
                             Subscribe <i class="fas fa-external-link-alt"></i>
                         </a>
@@ -790,7 +1095,7 @@
                     <div class="community-card" data-aos="flip-left" data-aos-delay="500">
                         <div class="community-icon">🎮</div>
                         <h3>itch.io</h3>
-                        <p>Play all games in one place. Rate & comment.</p>
+                        <p>Play all games here.</p>
                         <a href="https://itch.io" target="_blank">
                             Explore <i class="fas fa-external-link-alt"></i>
                         </a>
@@ -800,11 +1105,11 @@
         </div>
 
         <!-- CTA Section -->
-        <div class="section" id="contact">
+        <div class="section">
             <div class="cta-section">
                 <div class="cta-content">
                     <div class="cta-text">Ready to Join the Rage?</div>
-                    <div class="cta-subtext">Start playing, contributing, or creating your own game with RageByters.</div>
+                    <div class="cta-subtext">Start playing, contributing, or creating with RageByters. The future is unwritten.</div>
                     <div class="btn-group">
                         <a href="https://github.com/ragebyters" class="btn-primary" target="_blank">
                             <i class="fab fa-github"></i> View on GitHub
@@ -847,9 +1152,10 @@
                 <a href="https://github.com/ragebyters" target="_blank">GitHub</a>
                 <a href="#games">Games</a>
                 <a href="#features">Features</a>
+                <a href="#roadmap">Roadmap</a>
+                <a href="#tech">Tech</a>
                 <a href="#community">Community</a>
                 <a href="https://github.com/ragebyters/ragebyters.github.io/blob/main/LICENSE" target="_blank">License</a>
-                <a href="https://github.com/ragebyters/ragebyters.github.io" target="_blank">Source Code</a>
             </div>
 
             <p style="margin-top: 30px; font-size: 0.9rem;">
@@ -861,12 +1167,27 @@
         </div>
     </footer>
 
-    <!-- AOS Animation Script -->
+    <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
     <script>
+        // Initialize AOS
         AOS.init({
             duration: 1000,
             once: true,
+        });
+
+        // Typed.js Animation
+        const typed = new Typed('.typed-text', {
+            strings: [
+                'Single-player web games designed to rage you.',
+                'Open source. Community driven. Pure chaos.',
+                'Play instantly. Contribute easily. Build with friends.',
+                'No downloads. No installs. Just pure gaming.'
+            ],
+            typeSpeed: 50,
+            backSpeed: 30,
+            loop: true,
+            showCursor: true
         });
 
         // Smooth scroll for nav links
