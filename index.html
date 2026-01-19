@@ -188,7 +188,6 @@
             min-height: 30px;
         }
 
-        /* Typed Text Animation */
         .typed-text {
             color: var(--accent-green);
             text-shadow: 0 0 10px rgba(29, 233, 182, 0.5);
@@ -252,7 +251,7 @@
             color: var(--accent-red);
         }
 
-        /* Upcoming Games Grid */
+        /* Games Grid */
         .game-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -260,6 +259,99 @@
             margin-bottom: 60px;
         }
 
+        .game-card {
+            background: linear-gradient(135deg, rgba(255, 23, 68, 0.1), rgba(124, 58, 237, 0.1));
+            border: 2px solid rgba(255, 23, 68, 0.5);
+            border-radius: 12px;
+            padding: 30px;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .game-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent 30%, rgba(255, 23, 68, 0.1) 50%, transparent 70%);
+            transform: rotate(45deg);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .game-card-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+
+        .game-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            display: inline-block;
+            transition: transform 0.3s;
+        }
+
+        .game-card:hover .game-icon {
+            transform: scale(1.2) rotate(10deg);
+        }
+
+        .game-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--accent-cyan);
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px rgba(0, 229, 255, 0.5);
+        }
+
+        .game-desc {
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            line-height: 1.4;
+        }
+
+        .game-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--accent-green), #1abc9c);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 10px;
+        }
+
+        .game-card:hover {
+            border-color: var(--accent-cyan);
+            transform: translateY(-8px);
+            box-shadow: 
+                0 0 20px rgba(255, 23, 68, 0.4),
+                0 0 40px rgba(0, 229, 255, 0.2);
+        }
+
+        .game-card:hover .game-title {
+            color: var(--accent-red);
+            text-shadow: 0 0 20px rgba(255, 23, 68, 0.8);
+        }
+
+        /* Coming Soon Card */
         .coming-soon-card {
             background: linear-gradient(135deg, rgba(255, 23, 68, 0.1), rgba(124, 58, 237, 0.1));
             border: 2px solid rgba(255, 23, 68, 0.5);
@@ -287,11 +379,6 @@
             background: linear-gradient(45deg, transparent 30%, rgba(255, 23, 68, 0.1) 50%, transparent 70%);
             transform: rotate(45deg);
             animation: shine 3s infinite;
-        }
-
-        @keyframes shine {
-            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
         }
 
         .coming-soon-content {
@@ -768,8 +855,8 @@
             
             <div class="stats-bar">
                 <div class="stat">
-                    <div class="stat-number">15+</div>
-                    <div class="stat-label">Games in Dev</div>
+                    <div class="stat-number">1</div>
+                    <div class="stat-label">Games Live</div>
                 </div>
                 <div class="stat">
                     <div class="stat-number">100%</div>
@@ -782,19 +869,23 @@
             </div>
         </header>
 
-        <!-- Coming Soon Games Section -->
+        <!-- Games Section -->
         <div class="section" id="games">
             <div class="container">
-                <h2 class="section-title">Coming Soon</h2>
+                <h2 class="section-title">Play Now</h2>
                 
                 <div class="game-grid">
-                    <div class="coming-soon-card" data-aos="fade-up">
-                        <div class="coming-soon-content">
-                            <div class="coming-soon-icon">🎮</div>
-                            <div class="coming-soon-badge">Coming Soon</div>
+                    <!-- LIVE GAME -->
+                    <a href="/game-snake/" class="game-card" data-aos="fade-up">
+                        <div class="game-card-content">
+                            <div class="game-icon">🐍</div>
+                            <div class="game-title">Snake</div>
+                            <div class="game-desc">Classic snake with rage mechanics. Eat, grow, survive.</div>
+                            <div class="game-badge">Live</div>
                         </div>
-                    </div>
+                    </a>
 
+                    <!-- COMING SOON GAMES -->
                     <div class="coming-soon-card" data-aos="fade-up" data-aos-delay="100">
                         <div class="coming-soon-content">
                             <div class="coming-soon-icon">🎯</div>
