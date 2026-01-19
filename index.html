@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RageByters | Web Game Arcade</title>
+    <style>
+        :root {
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --text-main: #ffffff;
+            --text-dim: #a0a0a0;
+            --accent: #ff4757; /* Rage red */
+        }
+        body {
+            font-family: 'Courier New', Courier, monospace; /* Retro arcade vibe */
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        header {
+            margin-bottom: 40px;
+            padding: 20px 0;
+            border-bottom: 2px solid var(--accent);
+        }
+        h1 { margin: 0; font-size: 2.5rem; letter-spacing: -2px; }
+        p.subtitle { color: var(--text-dim); margin-top: 5px; }
+        
+        /* The Game Grid */
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        /* Game Cards */
+        .game-card {
+            background: var(--card-bg);
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 20px;
+            transition: transform 0.2s, border-color 0.2s;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 150px;
+        }
+        .game-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+            cursor: pointer;
+        }
+        .game-title { font-size: 1.5rem; font-weight: bold; margin-bottom: 10px; }
+        .game-desc { font-size: 0.9rem; color: var(--text-dim); }
+
+        footer {
+            margin-top: 60px;
+            font-size: 0.8rem;
+            color: var(--text-dim);
+        }
+        a { color: var(--accent); text-decoration: none; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>RAGEBYTERS</h1>
+        <p class="subtitle">Bite-sized web games for max rage.</p>
+    </header>
+
+    <div class="game-grid">
+        <!-- 
+           Future games go here! 
+           Example: 
+           <a href="/game-snake/" class="game-card">
+               <div class="game-title">🐍 Snake</div>
+               <div class="game-desc">Classic snake but faster.</div>
+           </a>
+        -->
+        
+        <!-- Placeholder Card -->
+        <div class="game-card" style="opacity: 0.5; cursor: default;">
+            <div class="game-title">🚧 More Games Coming</div>
+            <div class="game-desc">Check back soon!</div>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>Built by <a href="https://github.com/ragebyters">RageByters</a> on GitHub.</p>
+    </footer>
+
+</body>
+</html>
