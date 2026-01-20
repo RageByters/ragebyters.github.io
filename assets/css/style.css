@@ -90,6 +90,22 @@ nav {
     gap: 10px;
 }
 
+#mute-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: var(--accent-cyan);
+    margin-left: 20px;
+    z-index: 1002;
+    transition: all 0.3s;
+}
+
+#mute-btn:hover {
+    color: var(--accent-pink);
+    transform: scale(1.1);
+}
+
 .hamburger {
     display: none;
     font-size: 1.5rem;
@@ -684,7 +700,7 @@ h1 {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 20px;
-        margin-bottom: 0;
+    margin-bottom: 0;
 }
 
 .community-card {
@@ -828,7 +844,7 @@ footer {
         gap: 30px;
         flex-direction: column;
     }
-    
+
     .hamburger {
         display: block;
     }
@@ -853,7 +869,7 @@ footer {
     .nav-links.active {
         transform: translateY(0);
     }
-    
+
     .nav-links li {
         margin: 15px 0;
     }
