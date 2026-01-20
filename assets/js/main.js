@@ -61,19 +61,52 @@ if (hamburger) {
 }
 
 // --- Sound Controller (Web Audio API) ---
+// --- Sound Controller (Web Audio API) ---
 class SoundController {
     constructor() {
-        this.context = new (window.AudioContext || window.webkitAudioContext)();
+        this.context = null;
+        this.masterGain = null;
+        this.muted = localStorage.getItem('ragebyters_muted') === 'true';
+        this.initialized = false;
+
+        // Wait for DOM to be ready before finding button
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => this.updateMuteState());
+        } else {
+            this.updateMuteState();
+        }
+    }
+
+    init() {
+        if (this.initialized) return;
+
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContext) return; // Browser doesn't support Web Audio API
+
+        this.context = new AudioContext();
         this.masterGain = this.context.createGain();
         this.masterGain.connect(this.context.destination);
         this.masterGain.gain.value = 0.3; // Default volume
-        this.muted = localStorage.getItem('ragebyters_muted') === 'true';
-        this.updateMuteState();
+
+        this.initialized = true;
+
+        // Resume context if it starts suspended (Chrome policy)
+        if (this.context.state === 'suspended') {
+            this.context.resume();
+        }
     }
 
     playTone(frequency, type, duration, startTime = 0) {
         if (this.muted) return;
-        if (this.context.state === 'suspended') this.context.resume();
+        if (!this.initialized) this.init();
+
+        // Safety check
+        if (!this.context) return;
+
+        // Try to resume context if suspended
+        if (this.context.state === 'suspended') {
+            this.context.resume().catch(e => console.warn(e));
+        }
 
         const osc = this.context.createOscillator();
         const gain = this.context.createGain();
@@ -92,12 +125,10 @@ class SoundController {
     }
 
     playHover() {
-        // High pitched "bloop"
         this.playTone(400, 'sine', 0.1);
     }
 
     playClick() {
-        // Arcade selection sound (two tones)
         this.playTone(600, 'square', 0.1);
         this.playTone(800, 'square', 0.1, 0.1);
     }
@@ -106,10 +137,15 @@ class SoundController {
         this.muted = !this.muted;
         localStorage.setItem('ragebyters_muted', this.muted);
         this.updateMuteState();
-        return this.muted;
+
+        // Initialize audio if unmuting
+        if (!this.muted && !this.initialized) {
+            this.init();
+        }
     }
 
     updateMuteState() {
+        // Ensure DOM is ready
         const btn = document.getElementById('mute-btn');
         if (btn) {
             btn.innerHTML = this.muted ? '<i class="fas fa-volume-mute"></i>' : '<i class="fas fa-volume-up"></i>';
@@ -118,27 +154,49 @@ class SoundController {
     }
 }
 
-// Initialize Sound
+// Initialize Sound Controller
 const sfx = new SoundController();
 
-// Attach sounds to elements
+// Unlock Audio Context on first user interaction
+const unlockAudio = () => {
+    sfx.init();
+    document.removeEventListener('click', unlockAudio);
+    document.removeEventListener('keydown', unlockAudio);
+};
+
+document.addEventListener('click', unlockAudio);
+document.addEventListener('keydown', unlockAudio);
+
+// Attach event listeners
 document.addEventListener('DOMContentLoaded', () => {
     // Mute Button Logic
     const muteBtn = document.getElementById('mute-btn');
     if (muteBtn) {
-        sfx.updateMuteState(); // Set initial icon
+        // Force update state once DOM is ready
+        sfx.updateMuteState();
+
         muteBtn.addEventListener('click', (e) => {
             e.preventDefault();
+            e.stopPropagation(); // Prevent triggering unlockAudio redundant calls if not needed
             sfx.toggleMute();
-            // Don't play click sound on mute toggle to avoid annoyance
         });
     }
 
-    // Interactive Elements
-    const interactives = document.querySelectorAll('a, button, .game-card, .community-card, .feature, .tech-item');
+    // Interactive Elements Sound triggers
+    const attachSounds = () => {
+        const interactives = document.querySelectorAll('a, button, .game-card, .community-card, .feature, .tech-item');
+        interactives.forEach(el => {
+            // Prevent duplicate listeners
+            if (el.dataset.soundAttached) return;
+            el.dataset.soundAttached = 'true';
 
-    interactives.forEach(el => {
-        el.addEventListener('mouseenter', () => sfx.playHover());
-        el.addEventListener('click', () => sfx.playClick());
-    });
+            el.addEventListener('mouseenter', () => sfx.playHover());
+            el.addEventListener('click', () => sfx.playClick());
+        });
+    };
+
+    attachSounds();
+
+    // Re-attach sounds if AOS adds new elements or dynamic content loads?
+    // For now, this is static site so it's fine.
 });
