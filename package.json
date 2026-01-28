@@ -11,6 +11,8 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "^7.1.0",
     "aos": "^2.3.4",
+    "framer-motion": "^12.29.2",
+    "lucide-react": "^0.563.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-scripts": "^5.0.1",
