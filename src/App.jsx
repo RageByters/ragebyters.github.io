@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo } from 'react';
+import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import './index.css';
@@ -9,10 +10,25 @@ import GameGrid from './components/GameGrid';
 import Features from './components/Features';
 import Roadmap from './components/Roadmap';
 import Footer from './components/Footer';
+import TypingTest from './components/TypingTest';
 import SoundController from './utils/SoundController';
 
-function App() {
-  const sfx = useMemo(() => new SoundController(), []);
+const ArcadeHome = () => (
+  <motion.div
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    exit={{ opacity: 0 }}
+  >
+    <Hero />
+    <GameGrid />
+    <Features />
+    <Roadmap />
+  </motion.div>
+);
+
+const AppContent = ({ sfx }) => {
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const unlockAudio = () => {
@@ -24,7 +40,6 @@ function App() {
     document.addEventListener('click', unlockAudio);
     document.addEventListener('keydown', unlockAudio);
 
-    // Subtle sound triggers for modern UI
     const handleMouseOver = (e) => {
       if (e.target.closest('a, button, .glass-card, .glass')) {
         sfx.playHover();
@@ -50,7 +65,6 @@ function App() {
 
   return (
     <div className="App" style={{ position: 'relative', overflow: 'hidden' }}>
-      {/* Dynamic Background Elements */}
       <div className="noise-bg"></div>
       <div className="bg-glow bg-glow-1"></div>
       <div className="bg-glow bg-glow-2"></div>
@@ -69,14 +83,26 @@ function App() {
       <Navbar sfx={sfx} />
 
       <main>
-        <Hero />
-        <GameGrid />
-        <Features />
-        <Roadmap />
+        <AnimatePresence mode="wait">
+          <Routes location={location} key={location.pathname}>
+            <Route path="/" element={<ArcadeHome />} />
+            <Route path="/typing-test" element={<TypingTest onBack={() => navigate('/')} />} />
+          </Routes>
+        </AnimatePresence>
       </main>
 
       <Footer />
     </div>
+  );
+};
+
+function App() {
+  const sfx = useMemo(() => new SoundController(), []);
+
+  return (
+    <Router>
+      <AppContent sfx={sfx} />
+    </Router>
   );
 }
 

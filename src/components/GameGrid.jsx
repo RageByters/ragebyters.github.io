@@ -1,8 +1,9 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import { ArrowUpRight, Zap, Target, Users, Globe, Code, Shield, Trophy } from 'lucide-react';
 
-const Card = ({ game }) => {
+const Card = ({ game, onLaunch }) => {
     return (
         <motion.div
             whileHover={{ y: -10 }}
@@ -36,15 +37,19 @@ const Card = ({ game }) => {
                 <h3 style={{ fontSize: '1.5rem', marginBottom: 12, fontWeight: 700 }}>{game.title}</h3>
                 <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', marginBottom: 24, flex: 1 }}>{game.desc}</p>
 
-                <a href={game.link} style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    textDecoration: 'none',
-                    color: 'var(--accent-cyan)',
-                    fontWeight: 700,
-                    fontSize: '0.9rem'
-                }}>
+                <a
+                    href={game.link}
+                    onClick={(e) => onLaunch(e, game.link)}
+                    style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        textDecoration: 'none',
+                        color: 'var(--accent-cyan)',
+                        fontWeight: 700,
+                        fontSize: '0.9rem'
+                    }}
+                >
                     Launch Game
                     <ArrowUpRight size={18} />
                 </a>
@@ -54,6 +59,7 @@ const Card = ({ game }) => {
 };
 
 const GameGrid = () => {
+    const navigate = useNavigate();
     const games = [
         {
             title: 'Rage Snake',
@@ -67,9 +73,16 @@ const GameGrid = () => {
             desc: 'A high-pressure typing challenge. Accuracy and speed are your only weapons.',
             image: '/assets/images/typing_thumb.png',
             badge: 'NEW',
-            link: '/utilty-typing-test/index.html'
+            link: '/typing-test'
         }
     ];
+
+    const handleLaunch = (e, link) => {
+        if (link.startsWith('/typing-test')) {
+            e.preventDefault();
+            navigate(link);
+        }
+    };
 
     return (
         <section className="section" id="games">
@@ -85,7 +98,7 @@ const GameGrid = () => {
                             viewport={{ once: true }}
                             transition={{ delay: i * 0.1 }}
                         >
-                            <Card game={game} />
+                            <Card game={game} onLaunch={handleLaunch} />
                         </motion.div>
                     ))}
 
