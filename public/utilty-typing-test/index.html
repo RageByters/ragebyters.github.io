@@ -10,47 +10,48 @@
 
     <!-- Google Fonts -->
     <link
-        href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Orbitron:wght@400;700;900&family=Inter:wght@400;600;800&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap"
         rel="stylesheet">
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- AOS Animation -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
-
     <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
-    <!-- Retro Grid Background -->
-    <canvas id="bg-canvas"></canvas>
+    <!-- Background Effects -->
+    <div class="noise-bg"></div>
+    <div class="bg-glow bg-glow-1"></div>
+    <div class="bg-glow bg-glow-2"></div>
 
     <nav>
-        <a href="https://ragebyters.github.io/" class="nav-logo">
-            <img src="https://ragebyters.github.io/assets/images/logo.png" alt="RageByters Logo" style="height: 30px;">
+        <a href="/" class="nav-logo">
+            <div
+                style="width: 32px; height: 32px; background: var(--accent-cyan); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--bg-core); font-weight: 900; margin-right: 12px; font-family: 'Outfit';">
+                R</div>
             RageByters
         </a>
         <div class="nav-links">
-            <a href="https://ragebyters.github.io/#games"><i class="fas fa-gamepad"></i> Arcade</a>
+            <a href="/#games"><i class="fas fa-gamepad"></i> Arcade</a>
         </div>
     </nav>
 
     <main>
-        <header data-aos="fade-down">
-            <h1>⚡ TYPING TEST ⚡</h1>
+        <header>
+            <h1>NEON TYPE</h1>
             <p class="subtitle">MAXIMUM VELOCITY</p>
         </header>
 
-        <section class="game-container" data-aos="zoom-in">
+        <section class="game-container">
             <div class="stats-container">
                 <div class="stat-box">
                     <div class="stat-value" id="wpm">0</div>
                     <div class="stat-label">WPM</div>
                 </div>
                 <div class="stat-box">
-                    <div class="stat-value" id="accuracy">100%</div>
-                    <div class="stat-label">ACCURACY</div>
+                    <div class="stat-value" id="accuracy">100</div>
+                    <div class="stat-label">ACCURACY %</div>
                 </div>
                 <div class="stat-box">
                     <div class="stat-value" id="timer">60s</div>
@@ -60,7 +61,6 @@
 
             <div class="typing-area-wrapper">
                 <div id="text-display" class="text-display">
-                    <!-- Text will be generated here -->
                     Loading challenge...
                 </div>
                 <textarea id="typing-input" class="typing-input" autofocus
@@ -93,7 +93,7 @@
                     </div>
                 </div>
                 <div class="chart-container"
-                    style="position: relative; height: 200px; width: 100%; margin-bottom: 20px;">
+                    style="position: relative; height: 200px; width: 100%; margin-bottom: 40px;">
                     <canvas id="wpm-chart"></canvas>
                 </div>
                 <button id="close-results" class="btn-secondary">BACK TO ACTION</button>
@@ -102,20 +102,12 @@
     </main>
 
     <footer>
-        <p>RageByters © 2026 | Built for pure performance.</p>
+        <p>© 2026 RageByters. Built with pure rage.</p>
     </footer>
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
-    <script src="js/background.js" defer></script>
     <script src="js/script.js" defer></script>
-    <script>
-        AOS.init({
-            duration: 800,
-            once: true
-        });
-    </script>
 </body>
 
 </html>

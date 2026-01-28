@@ -67,7 +67,7 @@ const GameGrid = () => {
             desc: 'A high-pressure typing challenge. Accuracy and speed are your only weapons.',
             image: '/assets/images/typing_thumb.png',
             badge: 'NEW',
-            link: '/utilty-typing-test/'
+            link: '/utilty-typing-test/index.html'
         }
     ];
 
